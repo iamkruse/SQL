@@ -1,0 +1,15 @@
+/* This is code for creating a Store database */
+CREATE TABLE Store_Items (id INTEGER PRIMARY KEY, name TEXT, aisle INTEGER, remaining_in_store INTEGER, price INTEGER);
+
+/*These are the values that I addede to the store database*/
+INSERT INTO Store_Items VALUES (1, "carrots", 4, 3, 2.28);
+INSERT INTO Store_Items VALUES (2, "popcorn", 12, 11, 12.69);
+INSERT INTO Store_Items VALUES (3, "frozen berries", 1, 2, 19.08);
+INSERT INTO Store_Items VALUES (4, "potatoes", 6, 10, 9.48);
+INSERT INTO Store_Items VALUES (5, "golden chocolate bars", 2, 12, 1022.14);
+
+/*This is checking to see if the values were successfully added to the table*/
+Select 
+  * 
+from 
+  Store_Items
