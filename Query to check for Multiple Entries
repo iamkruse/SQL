@@ -1,0 +1,41 @@
+/* This query is used at my current job every month in order to see if multiple entries of the same description have occured */
+/* This is used because if there are multiple entries then that means we have billed the client more than once for the same entry */
+/* Essentially this is used to self-audit */
+
+SET NOCOUNT ON;
+USE ACUMIN;
+
+SELECT
+    COUNT(entry.description) AS NumEntries,
+    CAST(CONVERT(nvarchar(30), entry.transactiondate, 10) AS varchar(30)) AS TransDate,
+    x.MemberCode,
+    x.SecondName + ' ' + x.Name AS UserName,
+    z.ClientCode,
+    k.code AS MatterNum,
+    '"' + entry.Description + '"' AS Narrative
+FROM
+    entry WITH (NOLOCK)
+JOIN
+    person x ON x.pPersonID = entry.pCreatedByID
+JOIN
+    matter k ON entry.pMatterID = k.pMatterID
+JOIN
+    person z ON k.pPersonID = z.pPersonID
+/* The GETDATE() - 38 is used as accounting asked us for this information on the 8th (or right around) of every month */
+WHERE
+    Entry.CreationDate > GETDATE() - 38
+    AND entry.posted = 1
+    AND entry.ClassName <> 'DisbursmentEntry'
+GROUP BY
+    entry.Description,
+    entry.transactiondate,
+    x.MemberCode,
+    z.ClientCode,
+    x.SecondName,
+    x.Name,
+    k.code
+/* This then looks for any entry that has a count greater than 1. Anything greater than 1 indicates that it has been entered multiple times */
+HAVING
+    COUNT(entry.description) > 1
+ORDER BY
+    COUNT(entry.Description) DESC;
