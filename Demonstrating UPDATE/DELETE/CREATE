@@ -1,0 +1,43 @@
+/* This is what an example of an app's data would look like */
+
+CREATE TABLE scores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    game_name TEXT,
+    player_name TEXT,
+    score INTEGER
+);
+
+INSERT INTO scores (id, game_name, player_name, score)
+VALUES (1, 'Game A', 'John', 100),
+       (2, 'Game B', 'Sarah', 150),
+       (3, 'Game A', 'Michael', 80),
+       (4, 'Game C', 'Emily', 200),
+       (5, 'Game B', 'David', 120);
+
+UPDATE scores
+SET score = 120
+WHERE game_name = 'Game A' AND player_name = 'John';
+
+DELETE FROM scores
+WHERE game_name = 'Game B' AND player_name = 'Sarah';
+
+INSERT INTO scores (id, game_name, player_name, score)
+VALUES (6, 'Game C', 'Lily', 180),
+       (7, 'Game A', 'Daniel', 90),
+       (8, 'Game B', 'Olivia', 140),
+       (9, 'Game A', 'Sophia', 110),
+       (10, 'Game C', 'Benjamin', 220),
+       (11, 'Game B', 'Emma', 130),
+       (12, 'Game A', 'Alexander', 95),
+       (13, 'Game B', 'Ava', 160),
+       (14, 'Game C', 'William', 190),
+       (15, 'Game A', 'James', 105);
+
+/* To ensure that the data was successfully added */
+
+Select 
+    * 
+from 
+    scores
+Order by
+    score DESC;
