@@ -1,0 +1,39 @@
+/* Create table about the people and what they do here */
+
+CREATE TABLE famous_people (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  birth_year INTEGER
+);
+
+INSERT INTO famous_people (name, birth_year) VALUES
+  ("Albert Einstein", 1879),
+  ("Marie Curie", 1867),
+  ("Leonardo da Vinci", 1452);
+
+/* Now I am checking to see if the values were added correctly */
+
+Select * from famous_people;
+
+CREATE TABLE professions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  person_id INTEGER,
+  profession TEXT
+);
+
+INSERT INTO professions (person_id, profession) VALUES
+  (1, "Physicist"),
+  (2, "Chemist"),
+  (3, "Artist"),
+  (3, "Inventor");
+
+/* Again, I am checking to see if the values were added correctly */
+
+Select * from professions;
+
+*/ Now I am combining the 2 tables */
+
+SELECT famous_people.name, famous_people.birth_year, GROUP_CONCAT(professions.profession, ', ') AS professions
+FROM famous_people
+LEFT JOIN professions ON famous_people.id = professions.person_id
+GROUP BY famous_people.id;
