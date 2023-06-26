@@ -9,11 +9,18 @@ CREATE TABLE famous_people (
 INSERT INTO famous_people (name, birth_year) VALUES
   ("Albert Einstein", 1879),
   ("Marie Curie", 1867),
-  ("Leonardo da Vinci", 1452);
+  ("Leonardo da Vinci", 1452),
+  ("Isaac Newton", 1643),
+  ("Galileo Galilei", 1564),
+  ("Nikola Tesla", 1856),
+  ("Ada Lovelace", 1815),
+  ("Charles Darwin", 1809),
+  ("Alan Turing", 1912),
+  ("Stephen Hawking", 1942),
+  ("Jane Goodall", 1934),
+  ("Alexander Graham Bell", 1847);
 
-/* Now I am checking to see if the values were added correctly */
-
-Select * from famous_people;
+SELECT * FROM famous_people;
 
 CREATE TABLE professions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,13 +32,18 @@ INSERT INTO professions (person_id, profession) VALUES
   (1, "Physicist"),
   (2, "Chemist"),
   (3, "Artist"),
-  (3, "Inventor");
+  (3, "Inventor"),
+  (4, "Physicist"),
+  (5, "Astronomer"),
+  (6, "Inventor"),
+  (7, "Mathematician"),
+  (8, "Naturalist"),
+  (9, "Mathematician"),
+  (10, "Theoretical Physicist"),
+  (11, "Primatologist"),
+  (12, "Inventor");
 
-/* Again, I am checking to see if the values were added correctly */
-
-Select * from professions;
-
-*/ Now I am combining the 2 tables */
+SELECT * FROM professions;
 
 SELECT famous_people.name, famous_people.birth_year, GROUP_CONCAT(professions.profession, ', ') AS professions
 FROM famous_people
