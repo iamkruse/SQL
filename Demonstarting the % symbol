@@ -1,0 +1,16 @@
+/* These are some demondstrations of how to use the % inside of queries to search or anything before, after or in between the % symbol */ 
+
+/* This shows all the total sum of all products ordered on 02/18/19 */
+SELECT sum(quantity)
+FROM BIT_DB.FebSales 
+WHERE orderdate like '02/18/19%'
+
+/* This shows all the different products that have "Batteries" in the name */
+SELECT distinct Product
+FROM BIT_DB.FebSales
+WHERE Product like '%Batteries%'
+
+/* This shows all different products that have their price end in ".99" */
+SELECT distinct Product, Price
+FROM BIT_DB.FebSales 
+WHERE Price like '%.99'
