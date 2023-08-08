@@ -4,7 +4,7 @@ Select
   *
 From
   OrderID
-Where OrderID IS NOT NULL AND OrderID <> ''
+Where OrderID IS NOT NULL AND OrderID <> ' '
 
 /* This should pull all data with actual values in the fields vs. NULL and blank values */
 
@@ -42,7 +42,8 @@ WHERE  price in (SELECT min(price) FROM BIT_DB.JanSales)
 
 #5. What is the total revenue for each product sold in January?
 
-SELECT sum(quantity)*price as revenue,product
+SELECT sum(quantity)*price as revenue,
+product
 FROM BIT_DB.JanSales
 GROUP BY product
 
