@@ -1,0 +1,24 @@
+-- This is a query I created at my current place of work to lookup the current folder a file is inside of as well as the parent folder that it is nested in --
+
+-- First we start off by creating a variable --
+DECLARE @MYVALUE int = 2926406
+-- Here we declared that "@MYVALUE" has the interger value of 2926406, which is the file number in our filing system that we want to lookup --
+
+select prj_name + '/' + (select prj_name from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE))) + '/' + (select prj_name from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE)) + '/' + (select prj_name from MHGROUP.PROJECTS where prj_id =@MYVALUE) as Folder_Path from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE)))
+-- this is the completed query but let's break it down as it is multiple queries inside of each other --
+
+select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE
+-- this is the sub-query that is nested deep within this query. It selects the file number that we have identified in our variable "@MYVALUE" and returns the PARENT FOLDER ID it is nested in --
+
+-- Going back to the original long query...--
+
+select prj_pid from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE)
+-- this returns the PARENT FOLDER ID of the previous PARENT FOLDER ID --
+-- You can see how this was nested a few more times in the big query on line 7 --
+
+select prj_name + '/' + (select prj_name from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE))) + '/' + (select prj_name from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE)) + '/' + (select prj_name from MHGROUP.PROJECTS where prj_id =@MYVALUE) as Folder_Path from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id in (select prj_pid from MHGROUP.PROJECTS where prj_id =@MYVALUE)))
+
+-- Breaking down this query some more, The innermost part of the query starts with the project identified by @MYVALUE (prj_id). It then goes up the project hierarchy by selecting the parent project (prj_pid) and fetching its "prj_name." This process is repeated in a nested subquery until it reaches the top-level project. The "prj_name" values from each level of the hierarchy are concatenated with '/' to form the complete path. --
+-- the output for this would look like this -- 
+
+Cassie Ott/Private Documents/Edwardsville Office/Charitable Giving
